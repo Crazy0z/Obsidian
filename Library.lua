@@ -1,4 +1,4 @@
-----32432423
+------324234234234
 local cloneref = (cloneref or clonereference or function(instance: any)
     return instance
 end)
@@ -3773,9 +3773,7 @@ do
                 
                 AnimateHoverOutline(Button.Stroke, true)
                 Button.BaseGradient.Enabled = true
-                TweenService:Create(Button.BaseGradient, Library.TweenInfo, {
-                    Transparency = NumberSequence.new(0.58),
-                }):Play()
+                Button.BaseGradient.Transparency = NumberSequence.new(0.58)
             end)
             Button.Base.MouseLeave:Connect(function()
                 if Button.Disabled then
@@ -3788,9 +3786,7 @@ do
                 Button.Tween:Play()
                 
                 AnimateHoverOutline(Button.Stroke, false)
-                TweenService:Create(Button.BaseGradient, Library.TweenInfo, {
-                    Transparency = NumberSequence.new(1),
-                }):Play()
+                Button.BaseGradient.Transparency = NumberSequence.new(1)
             end)
 
             Button.Base.MouseButton1Click:Connect(function()

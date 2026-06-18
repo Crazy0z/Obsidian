@@ -3,9 +3,8 @@
 -- You can suggest changes with a pull request or something
 
 -- For GitHub: change this raw URL to your username/repo/branch/path.
--- Original: https://raw.githubusercontent.com/deividcomsono/Obsidian/main/
--- Fork:     https://raw.githubusercontent.com/Crazy0z/Obsidian-ui-v2/main/Obsidian-main/
-local repo = "https://raw.githubusercontent.com/Crazy0z/Obsidian-ui-v2/main/Obsidian-main/"
+-- Repo: https://raw.githubusercontent.com/Crazy0z/Obsidian/main/
+local repo = "https://raw.githubusercontent.com/Crazy0z/Obsidian/main/"
 
 local function HttpGet(url: string): string
 	if game.HttpGet then

@@ -1,4 +1,4 @@
------44442
+----123
 local cloneref = (cloneref or clonereference or function(instance: any)
     return instance
 end)
@@ -6805,6 +6805,15 @@ function Library:CreateWindow(WindowInfo)
     local IsCompact = WindowInfo.SidebarCompacted
     local LastExpandedWidth = InitialLeftWidth
 
+    local function UpdateSearchClearButton()
+        local Visible = SearchBox.Visible and Trim(SearchBox.Text) ~= ""
+        SearchClearButton.Visible = Visible
+        TweenService:Create(SearchClearButton, SmoothTweenInfo, {
+            BackgroundTransparency = Visible and 0 or 1,
+            TextTransparency = Visible and 0 or 1,
+        }):Play()
+    end
+
     do
         Library.KeybindFrame, Library.KeybindContainer = Library:AddDraggableMenu("Keybinds")
         Library.KeybindFrame.AnchorPoint = Vector2.new(0, 0.5)
@@ -7074,15 +7083,6 @@ function Library:CreateWindow(WindowInfo)
                 SizeConstraint = Enum.SizeConstraint.RelativeYY,
                 Parent = SearchBox,
             })
-        end
-
-        local function UpdateSearchClearButton()
-            local Visible = SearchBox.Visible and Trim(SearchBox.Text) ~= ""
-            SearchClearButton.Visible = Visible
-            TweenService:Create(SearchClearButton, SmoothTweenInfo, {
-                BackgroundTransparency = Visible and 0 or 1,
-                TextTransparency = Visible and 0 or 1,
-            }):Play()
         end
 
         SearchClearButton.MouseButton1Click:Connect(function()

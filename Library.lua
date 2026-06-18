@@ -1,4 +1,4 @@
-----67
+--------------96599
 local cloneref = (cloneref or clonereference or function(instance: any)
     return instance
 end)
@@ -3743,6 +3743,8 @@ do
             local BaseGradient = AddAccentGradient(Base)
             BaseGradient.Transparency = NumberSequence.new(1)
             BaseGradient.Enabled = not Button.Disabled
+            Button.BaseGradient = BaseGradient
+            Button.Stroke = Stroke
 
             table.insert(
                 Library.Corners,
@@ -3819,7 +3821,7 @@ do
             end)
         end
 
-        Button.Base, Button.Stroke = CreateButton(Button)
+        Button.Base = CreateButton(Button)
         InitEvents(Button)
 
         function Button:AddButton(...)

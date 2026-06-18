@@ -1,4 +1,4 @@
---------------96599
+----32432423
 local cloneref = (cloneref or clonereference or function(instance: any)
     return instance
 end)
@@ -2094,14 +2094,14 @@ TooltipLabel:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
         return
     end
 
-    local X, _ = Library:GetTextBounds(
+    local X, Y = Library:GetTextBounds(
         TooltipLabel.Text,
         TooltipLabel.FontFace,
         TooltipLabel.TextSize,
         (workspace.CurrentCamera.ViewportSize.X - TooltipLabel.AbsolutePosition.X - 8) / Library.DPIScale
     )
 
-    TooltipLabel.Size = UDim2.fromOffset(X + 8)
+    TooltipLabel.Size = UDim2.fromOffset(X + 8, Y + 4)
 end)
 
 local CurrentHoverInstance
@@ -3694,6 +3694,9 @@ do
         local Container = Groupbox.Container
 
         local Button = {
+            Base = nil,
+            BaseGradient = nil,
+            Stroke = nil,
             Text = Info.Text,
             Func = Info.Func,
             DoubleClick = Info.DoubleClick,
@@ -3771,7 +3774,7 @@ do
                 AnimateHoverOutline(Button.Stroke, true)
                 Button.BaseGradient.Enabled = true
                 TweenService:Create(Button.BaseGradient, Library.TweenInfo, {
-                    Transparency = 0.58,
+                    Transparency = NumberSequence.new(0.58),
                 }):Play()
             end)
             Button.Base.MouseLeave:Connect(function()
@@ -3786,7 +3789,7 @@ do
                 
                 AnimateHoverOutline(Button.Stroke, false)
                 TweenService:Create(Button.BaseGradient, Library.TweenInfo, {
-                    Transparency = 1,
+                    Transparency = NumberSequence.new(1),
                 }):Play()
             end)
 
@@ -5088,6 +5091,7 @@ do
 
         local SearchBox
         local SearchClearButton
+        local UpdateDropdownSearchClearButton
         if Info.Searchable then
             SearchBox = New("TextBox", {
                 BackgroundTransparency = 1,
@@ -5121,18 +5125,11 @@ do
                     Parent = SearchClearButton,
                 })
             )
-            local function UpdateDropdownSearchClearButton()
-                local Visible = SearchBox.Visible and Trim(SearchBox.Text) ~= ""
-                SearchClearButton.Visible = Visible
-                TweenService:Create(SearchClearButton, SmoothTweenInfo, {
-                    BackgroundTransparency = Visible and 0 or 1,
-                    TextTransparency = Visible and 0 or 1,
-                }):Play()
-            end
-
             SearchClearButton.MouseButton1Click:Connect(function()
                 SearchBox.Text = ""
-                UpdateDropdownSearchClearButton()
+                if UpdateDropdownSearchClearButton then
+                    UpdateDropdownSearchClearButton()
+                end
             end)
             SearchClearButton.MouseEnter:Connect(function()
                 TweenService:Create(SearchClearButton, SmoothTweenInfo, {
@@ -5146,12 +5143,27 @@ do
                     TextColor3 = Library.Scheme.AccentColor,
                 }):Play()
             end)
-            SearchBox:GetPropertyChangedSignal("Text"):Connect(UpdateDropdownSearchClearButton)
+            SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+                if UpdateDropdownSearchClearButton then
+                    UpdateDropdownSearchClearButton()
+                end
+            end)
             New("UIPadding", {
                 PaddingLeft = UDim.new(0, 8),
                 PaddingRight = UDim.new(0, 34),
                 Parent = SearchBox,
             })
+        end
+
+        UpdateDropdownSearchClearButton = function()
+            if SearchBox then
+                local Visible = SearchBox.Visible and Trim(SearchBox.Text) ~= ""
+                SearchClearButton.Visible = Visible
+                TweenService:Create(SearchClearButton, SmoothTweenInfo, {
+                    BackgroundTransparency = Visible and 0 or 1,
+                    TextTransparency = Visible and 0 or 1,
+                }):Play()
+            end
         end
 
         local GetValueImage = function(Value)
@@ -7378,6 +7390,7 @@ function Library:CreateWindow(WindowInfo)
         local TabButton: TextButton
         local TabLabel
         local TabIcon
+        local TabGlow
 
         local TabContainer
         local TabLeft
@@ -7392,7 +7405,7 @@ function Library:CreateWindow(WindowInfo)
                 Text = "",
                 Parent = Tabs,
             })
-            local TabGlow = New("Frame", {
+            TabGlow = New("Frame", {
                 AnchorPoint = Vector2.new(0, 0.5),
                 BackgroundColor3 = "AccentColor",
                 BackgroundTransparency = 1,
@@ -7685,7 +7698,7 @@ function Library:CreateWindow(WindowInfo)
                 New("UIPadding", { PaddingBottom = UDim.new(0, 7), PaddingLeft = UDim.new(0, 7), PaddingRight = UDim.new(0, 7), PaddingTop = UDim.new(0, 7), Parent = GroupboxContainer })
             end
             local function GetExpandedHeight() return (GroupboxList.AbsoluteContentSize.Y / Library.DPIScale) + 49 end
-            local Groupbox = { BoxHolder = BoxHolder, Holder = GroupboxHolder, Container = GroupboxContainer, Collapsible = Info.Collapsible, Collapsed = Info.Collapsed, Tab = Tab, DependencyBoxes = {}, Elements = {} }
+            local Groupbox = { BoxHolder = BoxHolder, Holder = GroupboxHolder, Container = GroupboxContainer, Collapsible = Info.Collapsible, Collapsed = Info.Collapsed, Tab = Tab, DependencyBoxes = {}, Elements = {}, ResizeTween = nil }
             function Groupbox:SetCollapsed(Collapsed: boolean, Instant: boolean?)
                 if not Groupbox.Collapsible then return end
                 Groupbox.Collapsed = Collapsed
@@ -7866,6 +7879,7 @@ function Library:CreateWindow(WindowInfo)
         local TabButton: TextButton
         local TabLabel
         local TabIcon
+        local TabGlow
 
         local TabContainer
 
@@ -7878,7 +7892,7 @@ function Library:CreateWindow(WindowInfo)
                 Text = "",
                 Parent = Tabs,
             })
-            local TabGlow = New("Frame", {
+            TabGlow = New("Frame", {
                 AnchorPoint = Vector2.new(0, 0.5),
                 BackgroundColor3 = "AccentColor",
                 BackgroundTransparency = 1,

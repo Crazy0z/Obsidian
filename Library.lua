@@ -1,4 +1,4 @@
-----12333
+----67
 local cloneref = (cloneref or clonereference or function(instance: any)
     return instance
 end)
@@ -3741,7 +3741,7 @@ do
                 Parent = Base,
             })
             local BaseGradient = AddAccentGradient(Base)
-            BaseGradient.Transparency = 1
+            BaseGradient.Transparency = NumberSequence.new(1)
             BaseGradient.Enabled = not Button.Disabled
 
             table.insert(
@@ -3918,7 +3918,7 @@ do
                 or Library.Scheme.MainColor
             Button.Base.TextTransparency = Button.Disabled and 0.8 or 0.4
             Button.Stroke.Transparency = Button.Disabled and 0.5 or 0
-            Button.BaseGradient.Transparency = 1
+            Button.BaseGradient.Transparency = NumberSequence.new(1)
             Button.BaseGradient.Enabled = not Button.Disabled
 
             Library.Registry[Button.Base].BackgroundColor3 = Button.Disabled and "BackgroundColor" or "MainColor"

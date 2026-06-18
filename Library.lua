@@ -1,4 +1,4 @@
-----123
+----12333
 local cloneref = (cloneref or clonereference or function(instance: any)
     return instance
 end)
@@ -1140,6 +1140,13 @@ local function FillInstance(Table: { [string]: any }, Instance: GuiObject)
                 value = SchemeValue or value()
             else
                 ThemeProperties[key] = nil
+            end
+        else
+            -- Handle Text property specially: only assign if it's a string or function
+            if typeof(value) == "function" then
+                value = value()
+            elseif typeof(value) ~= "string" then
+                continue
             end
         end
 

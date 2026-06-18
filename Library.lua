@@ -1,4 +1,4 @@
------4444434442
+-----4234254442
 local cloneref = (cloneref or clonereference or function(instance: any)
     return instance
 end)
@@ -7818,7 +7818,7 @@ function Library:CreateWindow(WindowInfo)
 
         function Tab:Hide()
             TweenService:Create(TabButton, Library.TweenInfo, { BackgroundTransparency = 1 }):Play()
-            if TabGlow then TweenService:Create(TabGlow, SmoothTweenInfo, { BackgroundTransparency = 1 }):Completed:Connect(function() TabGlow.Visible = false end) end
+            if TabGlow then TweenService:Create(TabGlow, SmoothTweenInfo, { BackgroundTransparency = 1 }).Completed:Connect(function() TabGlow.Visible = false end) end
             TweenService:Create(TabLabel, Library.TweenInfo, { TextTransparency = 0.5 }):Play()
             if TabIcon then TweenService:Create(TabIcon, Library.TweenInfo, { ImageTransparency = 0.5 }):Play() end
             TabContainer.Visible = false
@@ -8093,7 +8093,7 @@ function Library:CreateWindow(WindowInfo)
             if TabGlow then
                 TweenService:Create(TabGlow, SmoothTweenInfo, {
                     BackgroundTransparency = 1,
-                }):Completed:Connect(function()
+                }).Completed:Connect(function()
                     TabGlow.Visible = false
                 end)
             end

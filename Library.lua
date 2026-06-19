@@ -1,4 +1,4 @@
-
+---------11111
 local cloneref = (cloneref or clonereference or function(instance: any)
     return instance
 end)
@@ -315,7 +315,7 @@ local Templates = {
         Resizable = true,
         SearchbarSize = UDim2.fromScale(1, 1),
         GlobalSearch = false,
-        CornerRadius = 8,
+        CornerRadius = 4,
         NotifySide = "Right",
         ShowCustomCursor = true,
         Font = Enum.Font.Code,
@@ -1069,7 +1069,7 @@ local FetchIcons, Icons = pcall(function()
 end)
 
 function Library:GetIcon(IconName: string)
-    if not FetchIcons then
+    if not FetchIcons or type(Icons) ~= "table" or type(Icons.GetAsset) ~= "function" then
         return
     end
 
@@ -4226,8 +4226,8 @@ do
 
         local Button = New("TextButton", {
             Active = not Toggle.Disabled,
-            BackgroundColor3 = "BackgroundColor",
-            BackgroundTransparency = 0.5,
+            BackgroundColor3 = "MainColor",
+            BackgroundTransparency = 0,
             Size = UDim2.new(1, 0, 0, 36),
             Text = "",
             Visible = Toggle.Visible,
@@ -4282,7 +4282,7 @@ do
         Button.MouseEnter:Connect(function()
             if Toggle.Disabled then return end
             TweenService:Create(ButtonStroke, SmoothTweenInfo, { Color = Library.Scheme.AccentColor }):Play()
-            TweenService:Create(Button, SmoothTweenInfo, { BackgroundTransparency = 0.2 }):Play()
+            TweenService:Create(Button, SmoothTweenInfo, { BackgroundColor3 = Library:GetBetterColor(Library.Scheme.MainColor, 5) }):Play()
             TweenService:Create(SwitchStroke, Library.TweenInfo, {
                 Color = Library.Scheme.AccentColor
             }):Play()
@@ -4291,7 +4291,7 @@ do
         Button.MouseLeave:Connect(function()
             if Toggle.Disabled then return end
             TweenService:Create(ButtonStroke, SmoothTweenInfo, { Color = Library.Scheme.OutlineColor }):Play()
-            TweenService:Create(Button, SmoothTweenInfo, { BackgroundTransparency = 0.5 }):Play()
+            TweenService:Create(Button, SmoothTweenInfo, { BackgroundColor3 = Library.Scheme.MainColor }):Play()
             TweenService:Create(SwitchStroke, Library.TweenInfo, {
                 Color = Toggle.Value and Library.Scheme.AccentColor or Library.Scheme.OutlineColor
             }):Play()
@@ -4681,8 +4681,8 @@ do
         local Holder = New("TextButton", {
             Active = not Slider.Disabled,
             AutoButtonColor = false,
-            BackgroundColor3 = "BackgroundColor",
-            BackgroundTransparency = 0.5,
+            BackgroundColor3 = "MainColor",
+            BackgroundTransparency = 0,
             Size = UDim2.new(1, 0, 0, Info.Compact and 36 or 54),
             Text = "",
             Visible = Slider.Visible,
@@ -4694,12 +4694,12 @@ do
         Holder.MouseEnter:Connect(function()
             if Slider.Disabled then return end
             TweenService:Create(HolderStroke, SmoothTweenInfo, { Color = Library.Scheme.AccentColor }):Play()
-            TweenService:Create(Holder, SmoothTweenInfo, { BackgroundTransparency = 0.2 }):Play()
+            TweenService:Create(Holder, SmoothTweenInfo, { BackgroundColor3 = Library:GetBetterColor(Library.Scheme.MainColor, 5) }):Play()
         end)
         Holder.MouseLeave:Connect(function()
             if Slider.Disabled then return end
             TweenService:Create(HolderStroke, SmoothTweenInfo, { Color = Library.Scheme.OutlineColor }):Play()
-            TweenService:Create(Holder, SmoothTweenInfo, { BackgroundTransparency = 0.5 }):Play()
+            TweenService:Create(Holder, SmoothTweenInfo, { BackgroundColor3 = Library.Scheme.MainColor }):Play()
         end)
 
         local SliderLabel
@@ -5058,12 +5058,18 @@ do
             TweenService:Create(DisplayStroke, Library.TweenInfo, {
                 Color = Library.Scheme.AccentColor
             }):Play()
+            TweenService:Create(DisplayContainer, SmoothTweenInfo, {
+                BackgroundColor3 = Library:GetBetterColor(Library.Scheme.MainColor, 5)
+            }):Play()
         end)
 
         DisplayContainer.MouseLeave:Connect(function()
             if Dropdown.Disabled then return end
             TweenService:Create(DisplayStroke, Library.TweenInfo, {
                 Color = Library.Scheme.OutlineColor
+            }):Play()
+            TweenService:Create(DisplayContainer, SmoothTweenInfo, {
+                BackgroundColor3 = Library.Scheme.MainColor
             }):Play()
         end)
 
@@ -6994,7 +7000,7 @@ function Library:CreateWindow(WindowInfo)
             BackgroundColor3 = function()
                 return Library:GetBetterColor(Library.Scheme.BackgroundColor, -1)
             end,
-            BackgroundTransparency = 0.08,
+            BackgroundTransparency = 0,
             Name = "Main",
             Text = "",
             Position = WindowInfo.Position,

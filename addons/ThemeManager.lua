@@ -108,9 +108,9 @@ local ThemeManager = {
             15,
             { FontColor = "abb2bf", MainColor = "282c34", AccentColor = "c678dd", BackgroundColor = "21252b", OutlineColor = "5c6370", BackgroundImage = "" },
         },
-        ["Cyberpunk"] = {
+        ["Crazy-chan"] = {
             16,
-            { FontColor = "f9f9f9", MainColor = "262335", AccentColor = "00ff9f", BackgroundColor = "1a1a2e", OutlineColor = "413c5e", BackgroundImage = "" },
+            { FontColor = "ffffff", MainColor = "65060a", AccentColor = "ff2121", BackgroundColor = "0b0b0d", OutlineColor = "050505", BackgroundImage = "" },
         },
         ["Oceanic Next"] = {
             17,
